@@ -83,7 +83,24 @@ Qed.
 (** Questão 1 *)
 Lemma perm_to_permutation: forall l l', perm l l' -> permutation l l'.
 Proof.
-Admitted.
+  induction l.
+  - unfold permutation.
+    intro a.
+    reflexivity.
+  - unfold permutation in *.
+    simpl in *.
+    intro a.
+    destruct (a=?x); specialize (IHperm a); rewrite IHperm; reflexivity.
+  - unfold permutation in *.
+    simpl.
+    intro a.
+    destruct (a=? x); destruct (a=? y); specialize (IHperm a); rewrite IHperm; reflexivity.
+  - unfold permutation in *.
+    intro a.
+    specialize (IHperm1 a).
+    specialize (IHperm2 a).
+    rewrite IHperm1.
+  Qed.
 
 (** Questão 2 *)
 Lemma permutation_nil: forall l, permutation nil l -> l = nil.
