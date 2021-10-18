@@ -201,8 +201,43 @@ Qed.
 (** Questão 3 *)
 Lemma num_occ_cons: forall l x n, num_oc x l = S n -> exists l1 l2, l = l1 ++ x :: l2 /\ num_oc x (l1 ++ l2) = n.
 Proof.
-Admitted.
-
+intros.
+induction l.
+-exists nil.
+  simpl in H.
+  inversion H.
+- simpl in H.
+  destruct (x=?a) eqn:xeq.
+  --
+  exists nil.
+  exists l.
+  simpl.
+  split.
+    ---
+    simpl.
+    Search( _ ?= _).
+    rewrite Nat.eqb_eq in xeq.
+    rewrite xeq.
+    reflexivity.
+    ---inversion H.
+    reflexivity.
+  --rewrite H in IHl.
+  destruct IHl.
+    ----reflexivity.
+    ----exists (a::x0).
+    destruct H0.
+    exists x1.
+    split.
+      -----
+      destruct H0.
+      rewrite H0.
+      reflexivity.
+      -----
+      destruct H0.
+      simpl.
+      rewrite xeq.
+      apply H1.
+Qed.
 (** Questão 4 *)
 Lemma permutation_to_perm: forall l l', permutation l l' -> perm l l'.
 Proof.
