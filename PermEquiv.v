@@ -97,15 +97,29 @@ Proof.
     destruct (a=? x); destruct (a=? y); specialize (IHperm a); rewrite IHperm; reflexivity.
   - unfold permutation in *.
     intro a.
-    specialize (IHperm1 a).
+    specialize (IHperml a).
     specialize (IHperm2 a).
     rewrite IHperm1.
-  Qed.
+    apply IHperm2.
+ Qed.
 
 (** Questão 2 *)
 Lemma permutation_nil: forall l, permutation nil l -> l = nil.
 Proof.
-Admitted.
+  induction l.
+  - unfold permutation.
+    intro a.
+    reflexivity.
+  - unfold permutation in *.
+    simpl in *.
+    intro b.
+    specialize (b a).
+    destruct (a =? a) eqn:HEa in b .
+    * apply Nat.neq_0_succ in b.
+      contradiction.
+    * rewrite Nat.eqb_refl in HEa.
+      inversion HEa.
+Qed.
 
 Lemma permutation_sym: forall l l', permutation l l' -> permutation l' l.
 Proof.
